@@ -1,0 +1,23 @@
+{
+  "name": "ts-parcel",
+  "version": "1.0.0",
+  "description": "I want to know How faster parcel than webpack,",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel ./src/index.html",
+    "build": "parcel build ./src/index.html --out-dir dist --public-url '/'"
+  },
+  "author": "GmanPark",
+  "license": "MIT",
+  "devDependencies": {
+    "parcel-bundler": "^1.2.0",
+    "tslint": "^5.8.0",
+    "tslint-config-airbnb": "^5.4.2",
+    "tslint-config-prettier": "^1.6.0",
+    "typescript": "^2.6.2"
+  },
+  "dependencies": {
+    "babel-preset-typescript": "^7.0.0-alpha.19",
+    "parcel-plugin-typescript": "^0.3.0-next-aot.0"
+  }
+}
