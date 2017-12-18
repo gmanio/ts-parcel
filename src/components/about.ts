@@ -1,5 +1,12 @@
+import './about.scss';
+
 export default class About {
   constructor() {
-    console.log('about');
+  }
+
+  public attachEvent() {
+    document.addEventListener('click', () => {
+      console.log('test');
+    });
   }
 }

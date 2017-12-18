@@ -1,0 +1,16 @@
+.about {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    background: url("../assets/img/input_radio.png") no-repeat 0 0;
+    user-select: none;
+}
+
+.about2 {
+    position: absolute;
+    display: flex;
+    width: 80px;
+    height: 80px;
+    background: url("../assets/img/input_radio_on.png")  no-repeat 0 0;
+    user-select: none;
+}

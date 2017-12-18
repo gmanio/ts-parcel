@@ -1,14 +1,37 @@
 import About from './components/about';
 
-class App {
-  public oAbout: About;
+declare var window;
 
+class App {
   constructor() {
-    console.log('testerr');
-    this.oAbout = new About();
+    const hello = () => {
+      return "Hello World!";
+    };
+
+    const main = document.getElementById("js-main");
+
+    if ( main ) {
+      main.textContent = hello();
+      console.log('tester');
+    }
+
+    const oAbout = new About();
+    oAbout.attachEvent();
+
+    this.getDatas();
+  }
+
+  public getDatas() {
+    // fetch('https://www.googleapis.com/youtube/v3/playlistItems',
+    //   { method: 'GET',
+    //     mode: 'cors',
+    //     cache: 'default' })
+    //   .then((data) => {
+    //     debugger;
+    //   })
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  let oApp = new App();
+  window.oApp = new App();
 });
