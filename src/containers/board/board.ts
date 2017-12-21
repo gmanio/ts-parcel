@@ -16,18 +16,15 @@ firebase.initializeApp(config);
 
 class Board {
   private database = firebase.database();
-  private btnAddText: Element | null;
-  private btnConvertObject: Element | null;
   private fabricCanvas: fabric.Canvas;
+  private btnAddText: Element | null;
+  private btnAddImage: HTMLInputElement | null;
   private btnSave: Element | null;
   private btnLoad: Element | null;
-  private savedCanvas;
+  private btnClear: Element | null;
 
   constructor() {
-
-
     this.fabricCanvas = new fabric.Canvas('canvas_board');
-
     this.fabricCanvas.setWidth(window.innerWidth);
     this.fabricCanvas.setHeight(window.innerHeight);
 
@@ -36,16 +33,17 @@ class Board {
   }
 
   private cacheElement() {
+    this.btnAddImage = document.querySelector('.btn_add_image');
     this.btnAddText = document.querySelector('.btn__add-text');
-    this.btnConvertObject = document.querySelector('.btn__to-object');
+    this.btnClear = document.querySelector('.btn_clear');
     this.btnSave = document.querySelector('.btn_save');
     this.btnLoad = document.querySelector('.btn_load');
   }
 
   private attachEvent() {
-    // console.dir(fabric);
+    this.btnAddImage.addEventListener('click', () => this.onClickAddImage());
     this.btnAddText.addEventListener('click', () => this.onClickAddText());
-    this.btnConvertObject.addEventListener('click', () => this.onClickConvertCanvas());
+    this.btnClear.addEventListener('click', () => this.onClearCanvas());
     this.btnSave.addEventListener('click', () => this.onSaveCanvas());
     this.btnLoad.addEventListener('click', () => this.onLoadCanvas());
 
@@ -65,28 +63,37 @@ class Board {
     });
 
     this.fabricCanvas.add(text);
-
   }
 
-  private onClickConvertCanvas() {
+  private onClickAddImage() {
+    const reader = new FileReader();
+    const elImageInput: HTMLInputElement = document.querySelector('#image');
 
+    reader.onload = (e: ProgressEvent) => {
+      fabric.Image.fromURL(e.srcElement.result, (img) => {
+        img.scaleToWidth(this.fabricCanvas.getWidth());
+        this.fabricCanvas.add(img).renderAll();
+      })
+    }
+
+    reader.readAsDataURL(elImageInput.files[0]);
   }
 
   private onSaveCanvas() {
-    // console.log(this.fabricCanvas.toJSON());
-    this.database.ref('test')
+    this.database
+      .ref('test')
       .set(this.fabricCanvas.toJSON());
-    // debugger;
   }
 
   private onLoadCanvas() {
-    // this.fabricCanvas.loadFromJSON(this.savedCanvas);
-
     const canvasRef = firebase.database().ref('test');
     canvasRef.once('value', (snapshot) => {
-      debugger;
       this.fabricCanvas.loadFromJSON(snapshot.val());
     });
+  }
+
+  private onClearCanvas() {
+    this.fabricCanvas.clear();
   }
 }
 

@@ -7,11 +7,13 @@
     "clean": "rm -rf dist",
     "start": "parcel ./src/index.html --no-cache",
     "build": "parcel build src/index.html --public-url . --no-cache",
-    "build:board": "parcel build src/containers/board/board.html --public-url . --no-cache"
+    "build:board": "parcel build src/containers/board/board.html --public-url . --no-cache",
+    "deploy": "firebase deploy"
   },
   "author": "GmanPark",
   "license": "MIT",
   "devDependencies": {
+    "@types/fabric": "^1.5.27",
     "autoprefixer": "^7.2.3",
     "fabric": "^2.0.0-rc.3",
     "node-sass": "^4.7.2",
