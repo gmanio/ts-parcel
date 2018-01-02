@@ -22,6 +22,7 @@ class Board {
   private btnSave: Element | null;
   private btnLoad: Element | null;
   private btnClear: Element | null;
+  private btnAddVideo: Element | null;
 
   constructor() {
     this.fabricCanvas = new fabric.Canvas('canvas_board');
@@ -33,6 +34,7 @@ class Board {
   }
 
   private cacheElement() {
+    this.btnAddVideo = document.querySelector('.btn_add_video');
     this.btnAddImage = document.querySelector('.btn_add_image');
     this.btnAddText = document.querySelector('.btn__add-text');
     this.btnClear = document.querySelector('.btn_clear');
@@ -42,15 +44,24 @@ class Board {
 
   private attachEvent() {
     this.btnAddImage.addEventListener('click', () => this.onClickAddImage());
+    this.btnAddVideo.addEventListener('click', () => this.onClickAddVideo());
     this.btnAddText.addEventListener('click', () => this.onClickAddText());
     this.btnClear.addEventListener('click', () => this.onClearCanvas());
     this.btnSave.addEventListener('click', () => this.onSaveCanvas());
     this.btnLoad.addEventListener('click', () => this.onLoadCanvas());
 
+
     const canvasRef = firebase.database().ref('test');
     canvasRef.on('value', (snapshot) => {
       this.fabricCanvas.loadFromJSON(snapshot.val());
     });
+
+    fabric.util.requestAnimFrame(()=>(this.render()));
+  }
+
+  public render(){
+    this.fabricCanvas.renderAll();
+    fabric.util.requestAnimFrame(()=>(this.render()));
   }
 
   private onClickAddText() {
@@ -94,6 +105,27 @@ class Board {
 
   private onClearCanvas() {
     this.fabricCanvas.clear();
+  }
+
+  private onClickAddVideo() {
+    const reader = new FileReader();
+    const elImageInput: HTMLInputElement = document.querySelector('#image');
+    const elVideo: HTMLVideoElement = document.createElement('video');
+
+    reader.onload = (e: ProgressEvent) => {
+      elVideo.src = e.srcElement.result;
+      elVideo.loop = true;
+      elVideo.play();
+      const video = new fabric.Image(elVideo,{
+        width: 300,
+        height: 300
+      });
+
+      this.fabricCanvas.add(video);
+      // video.getElement.play();
+    }
+
+    reader.readAsDataURL(elImageInput.files[0]);
   }
 }
 

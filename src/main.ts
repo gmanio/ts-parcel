@@ -1,7 +1,9 @@
-import './assets/scss/reset.scss';
+import * as firebase from 'firebase';
 
 class App {
   constructor() {
+    console.log(firebase);
+
     const hello = () => {
       return "Hello World!";
     };
@@ -15,14 +17,6 @@ class App {
   }
 
   public drawCanvas() {
-
-    // fetch('https://www.googleapis.com/youtube/v3/playlistItems',
-    //   { method: 'GET',
-    //     mode: 'cors',
-    //     cache: 'default' })
-    //   .then((data) => {
-    //     debugger;
-    //   })
   }
 }
 
